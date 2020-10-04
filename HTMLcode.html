@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+border-collapse: collapse;
+width: 100%;
+}
+th, td {
+text-align: left;
+padding: 8px;
+}
+tr:nth-child(even){background-color: #f2f2f2}
+th {
+background-color: #4CAF50;
+color: white;
+}
+</style>
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
+<script>
+var firebaseConfig = {
+apiKey: "AIzaSyDNt3seYKUCPYmDNpHL1ZF5tszMD23NfGw",
+authDomain: "helloworld-d01cb.firebaseapp.com",
+databaseURL: "https://helloworld-d01cb.firebaseio.com",
+projectId: "helloworld-d01cb",
+storageBucket: "helloworld-d01cb.appspot.com",
+messagingSenderId: "959676288545",
+appId: "1:959676288545:web:1473a69f05bb9c5f265d60",
+measurementId: "G-PF5F6MD5ZN"
+};
+
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+console.log(firebaseConfig);
+var database = firebase.database();
+var ref = firebase.database().ref("rfid/Attendance").orderByKey();
+ref.once("value").then(function(snapshot) {
+snapshot.forEach(function(childSnapshot) {
+var key = childSnapshot.key;
+var childData = childSnapshot.val();
+console.log(childSnapshot.val());
+$("#attd").append("<tr><td>"+childData+"</td></tr>");
+});
+});
+var ref1 = firebase.database().ref("rfid/Card_id").orderByKey();
+ref1.once("value").then(function(snapshot) {
+snapshot.forEach(function(childSnapshot) {
+var key1 = childSnapshot.key;
+var childData1 = childSnapshot.val();
+console.log(childSnapshot.val());
+if (childData1==962810){
+var name = "Vedika";
+}
+else{
+name = "Khushi";
+}
+$("#crid").append("<tr><td>"+childData1+"</td></tr>");
+$("#nm").append("<tr><td>"+name+"</td></tr>");
+});
+});
+var ref2 = firebase.database().ref("rfid/Date_time").orderByKey();
+ref2.once("value").then(function(snapshot) {
+snapshot.forEach(function(childSnapshot) {
+var key2 = childSnapshot.key;
+var childData2 = childSnapshot.val();
+
+console.log(childSnapshot.val());
+$("#timdat").append("<tr><td>"+childData2+"</td></tr>");
+});
+});
+/**
+function gotData(data){
+console.log(data.val());
+var logs = data.val();
+var keys = Object.keys(logs);
+console.log(keys);
+for (var j = 0; j < keys.length; j++) {
+var k = keys[j];
+var Attendance = logs[k];
+console.log(Attendance);
+$("#attd").append("<tr><td>"+Attendance+"</td></tr>");
+}
+}
+function errData(err){
+console.log("Error!");
+console.log(err);
+}
+**/
+</script>
+<table>
+<thead>
+<tr>
+<th>Attendance</th>
+<th>ID</th>
+<th>Name</th>
+<th>Date/Time</th>
+</tr>
+</thead>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<tbody id="table_body">
+<tr>
+<td id="attd"></td>
+<td id="crid"></td>
+<td id="nm"></td>
+<td id="timdat"></td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
